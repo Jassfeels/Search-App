@@ -3,7 +3,7 @@
 client_id = "3a773c33eb105d09dfc396ecd71adb0c"
 name = "Voice Search"
 handle = "voice-search-3"
-application_url = "https://example.com/"
+application_url = "https://baptist-alfred-absent-syracuse.trycloudflare.com"
 embedded = true
 
 [build]
@@ -16,7 +16,11 @@ include_config_on_deploy = true
 scopes = "write_products"
 
 [auth]
-redirect_urls = [ "https://example.com/api/auth" ]
+redirect_urls = [
+  "https://baptist-alfred-absent-syracuse.trycloudflare.com/auth/callback",
+  "https://baptist-alfred-absent-syracuse.trycloudflare.com/auth/shopify/callback",
+  "https://baptist-alfred-absent-syracuse.trycloudflare.com/api/auth/callback"
+]
 
 [webhooks]
 api_version = "2024-07"

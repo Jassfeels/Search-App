@@ -2,11 +2,35 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/js/all.min.js" integrity="sha512-6sSYJqDreZRZGkJ3b+YfdhB3MzmuP9R7X1QZ6g5aIXhRvR1Y/N/P47jmnkENm7YL3oqsmI6AK+V6AD99uWDnIw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <style>
 button#voiceSearchBtn,
-button.voice-search-btn {
-    padding-right: {{ block.settings.right_space}}px; 
+button.voice-search-btn { 
     font-size: {{ block.settings.icon_size }}px;
-    cursor:pointer;
+    cursor:pointer; 
+    align-items: center;
+    background-color: transparent;
+    border: 0;
+    color: currentColor;
+    cursor: pointer;
+    display: flex;
+    height: 4.4rem;
+    justify-content: center;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    right: {{ block.settings.right_space}}px; 
+    top: 0;
+    width: 4.4rem;
 } 
+.facets form button.voice-search-btn {
+    display: none;
+}
+form.search button.reset__button {
+    right: 6.4rem;
+}
+button#voiceSearchBtn svg,
+button.voice-search-btn svg{
+    color: {{ block.settings.colour }}
+
+}
 </style>
 {% assign avg_rating = block.settings.product.metafields.demo.avg_rating.value | round %}
 {% comment %}
@@ -14,18 +38,18 @@ button.voice-search-btn {
     {% render 'stars', rating: avg_rating %}
   </span> 
  {% endcomment %} 
-
+ 
 
 {% if block.settings.Vsearch %}
   <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    console.log("App is Running fine in custom search");
-
-    // Function to append the voice search button next to inputs with voice_search="enable"
+    document.addEventListener('DOMContentLoaded', () => {
+        console.log("App is Running fine in custom search ...//");
+    
+        // Function to append the voice search button next to inputs with voice_search="enable"
         function appendVoiceSearchButton() {
             // Select all input elements with the attribute voice_search="enable"
             const voiceSearchInputs = document.querySelectorAll('input[voice_search="enable"]');
-
+    
             voiceSearchInputs.forEach((searchInput) => {
                 // Check if the button already exists to avoid duplicates
                 if (!searchInput.nextElementSibling || !searchInput.nextElementSibling.classList.contains('voice-search-btn')) {
@@ -34,44 +58,46 @@ button.voice-search-btn {
                     voiceSearchBtn.classList.add('voice-search-btn');
                     voiceSearchBtn.innerHTML = '<i class="fas fa-microphone"></i>';
                     voiceSearchBtn.style.marginLeft = '5px';  // Optional styling for margin
-
+    
                     // Append the button right after the input element
                     searchInput.parentNode.insertBefore(voiceSearchBtn, searchInput.nextSibling);
                 }
             });
         }
-
+    
         // Function to handle the voice search functionality
         function initVoiceSearch() {
             // Add event listener to all voice search buttons
             document.querySelectorAll('.voice-search-btn').forEach((btn) => {
                 btn.addEventListener('click', (event) => {
                     const searchInput = event.target.previousElementSibling;
-
+    
                     if ('webkitSpeechRecognition' in window) {
+                        // Create a new instance of webkitSpeechRecognition for each click
                         const recognition = new webkitSpeechRecognition();
                         recognition.lang = 'en-US';
                         recognition.interimResults = false;
                         recognition.maxAlternatives = 1;
-
+    
                         recognition.onstart = function() {
                             console.log('Voice search activated. Speak now...');
                         };
-
+    
                         recognition.onresult = function(event) {
                             const voiceQuery = event.results[0][0].transcript;
                             searchInput.value = voiceQuery;
                             searchInput.focus();  // Set focus on the input field after the voice input is recognized
                         };
-
+    
                         recognition.onerror = function(event) {
                             console.error('Error occurred in recognition: ' + event.error);
                         };
-
+    
                         recognition.onend = function() {
                             console.log('Voice search ended.');
                         };
-
+    
+                        // Start the voice recognition
                         recognition.start();
                     } else {
                         alert("Voice search is not supported in your browser.");
@@ -79,90 +105,95 @@ button.voice-search-btn {
                 });
             });
         }
-
+    
         // Run the first function to append the button
         appendVoiceSearchButton();
-        console.log("Use custom search to add icon");
-
+        console.log("Use custom search to add icon ...////");
+    
         // Run the second function to add the voice search functionality after the button is appended
         initVoiceSearch();
     });
-
+    
   </script>
 {% endif %}
  
 {% unless block.settings.search_icon == false %}
   <script> 
-  console.log("Use Default search box");  
-    document.addEventListener('DOMContentLoaded', () => {
-      //console.log("App is Running fine");
+  console.log("Use Default search box");
 
-      // Function to append the voice search button next to inputs with name="q"
-      function appendVoiceSearchButton() {
-          // Select all input elements with the attribute name="q"
-          const voiceSearchInputs = document.querySelectorAll('input[name="q"]');
+  document.addEventListener('DOMContentLoaded', () => {
+    // Function to append the voice search button next to inputs with name="q"
+    function appendVoiceSearchButton() {
+        // Select all input elements with the attribute name="q"
+        const voiceSearchInputs = document.querySelectorAll('input[name="q"]');
 
-          voiceSearchInputs.forEach((searchInput) => {
-              // Check if the button already exists to avoid duplicates
-              if (!searchInput.nextElementSibling || !searchInput.nextElementSibling.classList.contains('voice-search-btn')) {
-                  const voiceSearchBtn = document.createElement('button');
-                  voiceSearchBtn.type = 'button';
-                  voiceSearchBtn.classList.add('voice-search-btn');
-                  voiceSearchBtn.innerHTML = '<i class="fas fa-microphone"></i>';
-                  voiceSearchBtn.style.marginLeft = '5px';  // Optional styling for margin
+        voiceSearchInputs.forEach((searchInput) => {
+            // Check if the button already exists to avoid duplicates
+            if (!searchInput.nextElementSibling || !searchInput.nextElementSibling.classList.contains('voice-search-btn')) {
+                const voiceSearchBtn = document.createElement('button');
+                voiceSearchBtn.type = 'button';
+                voiceSearchBtn.classList.add('voice-search-btn');
+                voiceSearchBtn.innerHTML = '<i class="fas fa-microphone"></i>';
+                voiceSearchBtn.style.marginLeft = '5px';  // Optional styling for margin
 
-                  // Append the button right after the input element
-                  searchInput.parentNode.insertBefore(voiceSearchBtn, searchInput.nextSibling);
-              }
-          });
-      }
+                // Append the button right after the input element
+                searchInput.parentNode.insertBefore(voiceSearchBtn, searchInput.nextSibling);
+            }
+        });
+    }
 
-      // Function to handle the voice search functionality
-      function initVoiceSearch() {
-          // Add event listener to all voice search buttons
-          document.querySelectorAll('.voice-search-btn').forEach((btn) => {
-              btn.addEventListener('click', (event) => {
-                  const searchInput = event.target.previousElementSibling;
+    // Function to handle the voice search functionality
+    function initVoiceSearch() {
+        // Add event listener to all voice search buttons
+        document.querySelectorAll('.voice-search-btn').forEach((btn) => {
+            btn.addEventListener('click', (event) => {
+                const searchInput = event.target.previousElementSibling;
 
-                  if ('webkitSpeechRecognition' in window) {
-                      const recognition = new webkitSpeechRecognition();
-                      recognition.lang = 'en-US';
-                      recognition.interimResults = false;
-                      recognition.maxAlternatives = 1;
+                if ('webkitSpeechRecognition' in window) {
+                    // Create a new instance of webkitSpeechRecognition for each click
+                    const recognition = new webkitSpeechRecognition();
+                    recognition.lang = 'en-US';
+                    recognition.interimResults = false;
+                    recognition.maxAlternatives = 1;
 
-                      recognition.onstart = function() {
-                          console.log('Voice search activated. Speak now...');
-                      };
+                    recognition.onstart = function() {
+                        console.log('Speak now...');
+                        searchInput.setAttribute('placeholder', 'Speak now...'); // Change placeholder to 'Speak now...'
+                    };
 
-                      recognition.onresult = function(event) {
-                          const voiceQuery = event.results[0][0].transcript;
-                          searchInput.value = voiceQuery;
-                          searchInput.focus();  // Set focus on the input field after the voice input is recognized
-                      };
+                    recognition.onresult = function(event) {
+                        const voiceQuery = event.results[0][0].transcript;
+                        searchInput.value = voiceQuery;
+                        searchInput.focus();  // Set focus on the input field after the voice input is recognized
+                        searchInput.setAttribute('placeholder', ''); // Clear the placeholder after recognition
+                    };
 
-                      recognition.onerror = function(event) {
-                          console.error('Error occurred in recognition: ' + event.error);
-                      };
+                    recognition.onerror = function(event) {
+                        console.error('Error occurred in recognition: ' + event.error);
+                        searchInput.setAttribute('placeholder', ''); // Clear the placeholder on error
+                    };
 
-                      recognition.onend = function() {
-                          console.log('Voice search ended.');
-                      };
+                    recognition.onend = function() {
+                        console.log('Voice search ended.');
+                        searchInput.setAttribute('placeholder', ''); // Clear the placeholder when voice search ends
+                    };
 
-                      recognition.start();
-                  } else {
-                      alert("Voice search is not supported in your browser.");
-                  }
-              });
-          });
-      }
+                    // Start the voice recognition
+                    recognition.start();
+                } else {
+                    alert("Voice search is not supported in your browser.");
+                }
+            });
+        });
+    }
 
-      // Run the first function to append the button
-      appendVoiceSearchButton();
-      console.log("Use Default search box to append button");
+    // Run the first function to append the button
+    appendVoiceSearchButton();
+    console.log("Use Default search box to append button ...////");
 
-      // Run the second function to add the voice search functionality after the button is appended
-      initVoiceSearch();
-  });
+    // Run the second function to add the voice search functionality after the button is appended
+    initVoiceSearch();
+});
 
   </script>
  {% endunless %} 
@@ -180,7 +211,7 @@ button.voice-search-btn {
   "settings": [ 
     { "type": "checkbox", "id": "Vsearch", "label": "Voice Search", "default": true },
     { "type": "checkbox", "id": "search_icon", "label": "Search Icon", "default": true, "info": "Enable to use the deafult voice search box, disbale to add it on custom search whwre you have to append attirbute voice_search='enable' in same search input." }, 
-    { "type": "color", "id": "colour", "label": "Star Colour", "default": "#ff0000" },
+    { "type": "color", "id": "colour", "label": "Icon Colour", "default": "#ff0000" },
     {
       "type": "range",
       "id": "icon_size",
@@ -204,4 +235,4 @@ button.voice-search-btn {
 
   ]
 }
-{% endschema %}
+{% endschema %} 

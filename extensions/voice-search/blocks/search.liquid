@@ -119,8 +119,6 @@ button.voice-search-btn svg{
  
 {% unless block.settings.search_icon == false %}
   <script> 
-  console.log("Use Default search box");
-
   document.addEventListener('DOMContentLoaded', () => {
     // Function to append the voice search button next to inputs with name="q"
     function appendVoiceSearchButton() {
@@ -147,7 +145,13 @@ button.voice-search-btn svg{
         // Add event listener to all voice search buttons
         document.querySelectorAll('.voice-search-btn').forEach((btn) => {
             btn.addEventListener('click', (event) => {
+                // Ensure the correct input is referenced
                 const searchInput = event.target.previousElementSibling;
+
+                if (!searchInput) {
+                    console.error('No input field found for voice search.');
+                    return;
+                }
 
                 if ('webkitSpeechRecognition' in window) {
                     // Create a new instance of webkitSpeechRecognition for each click
@@ -163,19 +167,27 @@ button.voice-search-btn svg{
 
                     recognition.onresult = function(event) {
                         const voiceQuery = event.results[0][0].transcript;
-                        searchInput.value = voiceQuery;
-                        searchInput.focus();  // Set focus on the input field after the voice input is recognized
-                        searchInput.setAttribute('placeholder', ''); // Clear the placeholder after recognition
+                        if (searchInput) {
+                            searchInput.value = voiceQuery;
+                            searchInput.focus();  // Set focus on the input field after the voice input is recognized
+                            searchInput.setAttribute('placeholder', ''); // Clear the placeholder after recognition
+                        } else {
+                            console.error('No input field found during recognition result.');
+                        }
                     };
 
                     recognition.onerror = function(event) {
                         console.error('Error occurred in recognition: ' + event.error);
-                        searchInput.setAttribute('placeholder', ''); // Clear the placeholder on error
+                        if (searchInput) {
+                            searchInput.setAttribute('placeholder', ''); // Clear the placeholder on error
+                        }
                     };
 
                     recognition.onend = function() {
                         console.log('Voice search ended.');
-                        searchInput.setAttribute('placeholder', ''); // Clear the placeholder when voice search ends
+                        if (searchInput) {
+                            searchInput.setAttribute('placeholder', ''); // Clear the placeholder when voice search ends
+                        }
                     };
 
                     // Start the voice recognition
@@ -189,7 +201,7 @@ button.voice-search-btn svg{
 
     // Run the first function to append the button
     appendVoiceSearchButton();
-    console.log("Use Default search box to append button ...////");
+    console.log("Use Default search box to append button ...");
 
     // Run the second function to add the voice search functionality after the button is appended
     initVoiceSearch();

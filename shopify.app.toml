@@ -3,7 +3,7 @@
 client_id = "3a773c33eb105d09dfc396ecd71adb0c"
 name = "Voice Search"
 handle = "voice-search-3"
-application_url = "https://cms-wb-considerations-anonymous.trycloudflare.com"
+application_url = "https://mic-term-supreme-generated.trycloudflare.com"
 embedded = true
 
 [build]
@@ -13,13 +13,13 @@ include_config_on_deploy = true
 
 [access_scopes]
 # Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
-scopes = "write_products"
+scopes = "read_products"
 
 [auth]
 redirect_urls = [
-  "https://cms-wb-considerations-anonymous.trycloudflare.com/auth/callback",
-  "https://cms-wb-considerations-anonymous.trycloudflare.com/auth/shopify/callback",
-  "https://cms-wb-considerations-anonymous.trycloudflare.com/api/auth/callback"
+  "https://mic-term-supreme-generated.trycloudflare.com/auth/callback",
+  "https://mic-term-supreme-generated.trycloudflare.com/auth/shopify/callback",
+  "https://mic-term-supreme-generated.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
@@ -28,6 +28,12 @@ api_version = "2024-07"
   [[webhooks.subscriptions]]
   topics = [ "app/uninstalled" ]
   uri = "/webhooks"
+[webhooks]
+api_version = "2024-07"
+
+[[webhooks.subscriptions]]
+compliance_topics = ["customers/data_request", "customers/redact", "shop/redact"]
+uri = "https://squid-app-hfw2r.ondigitalocean.app/webhooks"
 
 [pos]
 embedded = false

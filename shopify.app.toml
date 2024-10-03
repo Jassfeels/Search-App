@@ -3,11 +3,11 @@
 client_id = "3a773c33eb105d09dfc396ecd71adb0c"
 name = "Voice Search"
 handle = "voice-search-3"
-application_url = "https://mic-term-supreme-generated.trycloudflare.com"
+application_url = "https://soil-convert-nursing-vietnamese.trycloudflare.com"
 embedded = true
 
 [build]
-automatically_update_urls_on_dev = true
+automatically_update_urls_on_dev = true 
 dev_store_url = "jassfeels.myshopify.com"
 include_config_on_deploy = true
 
@@ -17,9 +17,9 @@ scopes = "read_products"
 
 [auth]
 redirect_urls = [
-  "https://mic-term-supreme-generated.trycloudflare.com/auth/callback",
-  "https://mic-term-supreme-generated.trycloudflare.com/auth/shopify/callback",
-  "https://mic-term-supreme-generated.trycloudflare.com/api/auth/callback"
+  "https://soil-convert-nursing-vietnamese.trycloudflare.com/auth/callback",
+  "https://soil-convert-nursing-vietnamese.trycloudflare.com/auth/shopify/callback",
+  "https://soil-convert-nursing-vietnamese.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
@@ -28,12 +28,6 @@ api_version = "2024-07"
   [[webhooks.subscriptions]]
   topics = [ "app/uninstalled" ]
   uri = "/webhooks"
-[webhooks]
-api_version = "2024-07"
-
-[[webhooks.subscriptions]]
-compliance_topics = ["customers/data_request", "customers/redact", "shop/redact"]
-uri = "https://squid-app-hfw2r.ondigitalocean.app/webhooks"
 
 [pos]
 embedded = false
